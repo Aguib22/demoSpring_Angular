@@ -1,0 +1,75 @@
+<div class="container">
+ 
+    <div *ngIf="add">
+        <form [formGroup]="addForm" (ngSubmit)="onSubmitAdd()">
+            
+            
+            <div class="form-group">
+              <label for="designation">Designation</label>
+              <input id="designation" formControlName="name" class="form-control" placeholder="Enter product designation">
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input id="description" formControlName="description" class="form-control" placeholder="Enter product description">
+            </div>
+            <div class="form-group">
+                <label for="designation">Categorie</label>
+                <select name="categorie" id="categorie" formControlName="categorie" class="form-control">
+                    <option *ngFor="let categorie of categories" [value]="categorie.id">{{categorie.categorieName}}</option>
+                </select>
+            </div>
+          
+            <div class="form-group">
+              <label for="prix">Prix</label>
+              <input id="prix" formControlName="price" type="number" class="form-control" placeholder="Enter product price">
+            </div>
+            <div class="form-group">
+                <label for="image">Image</label>
+                <input type="file" id="image" (change)="onFileSelected($event)" class="form-control">
+            </div>
+          
+            <button type="submit" class="btn btn-primary m-2" [disabled]="addForm.invalid">Ajouter le produit</button>
+          </form>
+    </div>
+      
+
+    <div class="row  ">
+       <div class="d-flex">
+            <div class="col-8 mr-4 mt-2"> 
+                <input type="text" class="form-control m-2" placeholder="Chercher un produit" [(ngModel)]="search">
+            </div>
+            <div class="col-4 m-2">
+                <button class="btn btn-success m-2">+ Ajouter un nouveau produit</button>
+
+            </div>
+       </div>
+    </div>
+    <div *ngIf="prodcuts.length>0; else elseBolck">
+        <table class="table table-striped">
+            <thead class="bg-success">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let produit of onSearch(search)">
+                    <td>{{produit.id}}</td>
+                    <td>{{produit.name}}</td>
+                    <td>{{produit.description}}</td>
+                    <td>{{produit.price}}<span> Gnf</span> </td>
+                    <td>
+                        <button (click)="onEdit(produit.id!)" class="btn btn-warning btn-sm me-2">Éditer</button>
+                        <button (click)="onDelete(produit.id!)" class="btn btn-danger btn-sm me-2">Supprimer</button>
+                      </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <ng-template #elseBolck>
+        <p>aucun produit</p>
+    </ng-template>
+</div>
